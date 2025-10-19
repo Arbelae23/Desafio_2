@@ -1,10 +1,14 @@
-#ifndef ARTISTAS_H
-#define ARTISTAS_H
+#pragma once
+#include <iostream>
+#include <string>
+using namespace std;
 
-class artistas
-{
+class Artista {
+private:
+    string id, nombre, pais;
+    int edad, seguidores, posicionTendencia;
 public:
-    artistas();
+    Artista(string id="", string nombre="", int edad=0, string pais="");
+    void mostrarInfo() const;
+    void actualizarSeguidores(int delta);
 };
-
-#endif // ARTISTAS_H

@@ -1,10 +1,7 @@
-#ifndef INTERFAZ_H
-#define INTERFAZ_H
+#pragma once
+#include "usuario.h"
 
-class Interfaz
-{
+class Interfaz {
 public:
-    Interfaz();
+    void menuPrincipal(Usuario& user);
 };
-
-#endif // INTERFAZ_H

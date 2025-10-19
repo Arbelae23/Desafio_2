@@ -1,10 +1,17 @@
-#ifndef USUARIO_H
-#define USUARIO_H
+#pragma once
+#include <iostream>
+#include <string>
+#include "Playlist.h"
+using namespace std;
 
-class usuario
-{
+class Usuario {
+private:
+    string idUsuario, nombre, ciudad, pais, tipoMembresia;
+    Playlist* miPlaylist;
 public:
-    usuario();
+    Usuario(string id="", string nombre="", string tipo="Estandar");
+    ~Usuario();
+    void crearPlaylist(string nombre);
+    void reproducirPlaylist();
+    void mostrarPerfil() const;
 };
-
-#endif // USUARIO_H
