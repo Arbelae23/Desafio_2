@@ -4,4 +4,12 @@ CONFIG -= app_bundle
 CONFIG -= qt
 
 SOURCES += \
-        main.cpp
+        cancion.cpp \
+        main.cpp \
+        playlist.cpp \
+        usario.cpp
+
+HEADERS += \
+    cancion.h \
+    playlist.h \
+    usario.h
