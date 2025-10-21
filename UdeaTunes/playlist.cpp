@@ -22,6 +22,7 @@ void Playlist::eliminarCancion(string id) {
 void Playlist::reproducir() const {
     for (int i=0; i<numCanciones; i++)
         cout << "Reproduciendo: " << canciones[i] << endl;
+
 }
 void Playlist::reproducirAleatorio() const {
     srand(time(0));
