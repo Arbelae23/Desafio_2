@@ -1,0 +1,13 @@
+# Ignorar archivos de configuración local de Qt
+*.pro.user
+*.user
+*.user.*
+build-*/
+
+# Archivos temporales y binarios
+*.o
+*.obj
+*.exe
+*.dll
+*.log
+*.tmp
