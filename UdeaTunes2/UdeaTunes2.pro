@@ -21,3 +21,6 @@ HEADERS += \
     interfaz.h \
     playlist.h \
     usuario.h
+
+DISTFILES += \
+    DataUser.txt

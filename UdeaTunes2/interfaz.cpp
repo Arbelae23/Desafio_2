@@ -307,7 +307,7 @@ void Interfaz::reproducirCancion(Cancion* cancion, Usuario& usuario, bool es_ale
 
     // Reproducir con temporizador (3 segundos para testing)
     tiempo_restante = 3;  // Para pruebas, usar 3 segundos
-    // tiempo_restante = cancion->obtenerDuracion();  // Para produccion
+    //tiempo_restante = cancion->obtenerDuracion();  // Para produccion
 
     temporizador_activo = true;
     saltar_cancion = false;
