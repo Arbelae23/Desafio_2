@@ -11,13 +11,14 @@ private:
     int duracionSegundos;
     int reproducciones;
     char ruta320[300];
+    char rutaPortada[300];
     int codigoArtista;
 
 public:
     Cancion();
     void setDatos(long id, const char* titulo, const char* artista, const char* album, const char* genero, int duracion);
     void setDatos(const char* titulo, long id, int duracion, const char* ruta);
-    
+
     // Setters
     void establecerTitulo(const char* titulo);
     void establecerArtistaPrincipal(const char* artista);
@@ -25,8 +26,9 @@ public:
     void establecerGenero(const char* genero);
     void establecerDuracion(int duracion);
     void establecerRuta320(const char* ruta);
+    void establecerRutaPortada(const char* ruta);
     void establecerCodigoArtista(int codigo);
-    
+
     // Getters
     long getId() const;
     const char* getNombre() const;
@@ -38,9 +40,10 @@ public:
     const char* getGenero() const;
     int getDuracion() const;
     const char* getRuta320() const;
+    const char* getRutaPortada() const;
     int getReproducciones() const;
     int getCodigoArtista() const;
-    
+
     // Métodos funcionales
     void imprimir() const;
     void incrementarReproducciones();

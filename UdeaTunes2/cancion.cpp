@@ -13,6 +13,7 @@ Cancion::Cancion() {
     duracionSegundos = 0;
     reproducciones = 0;
     ruta320[0] = 0;
+    rutaPortada[0] = 0;
     codigoArtista = 0;
 }
 
@@ -53,6 +54,13 @@ void Cancion::establecerRuta320(const char* ruta) {
     if (ruta) {
         strncpy(this->ruta320, ruta, 299);
         this->ruta320[299] = 0;
+    }
+}
+
+void Cancion::establecerRutaPortada(const char* ruta) {
+    if (ruta) {
+        strncpy(this->rutaPortada, ruta, 299);
+        this->rutaPortada[299] = 0;
     }
 }
 
@@ -117,6 +125,10 @@ const char* Cancion::getRuta320() const {
     return ruta320;
 }
 
+const char* Cancion::getRutaPortada() const {
+    return rutaPortada;
+}
+
 int Cancion::getReproducciones() const {
     return reproducciones;
 }
@@ -127,7 +139,7 @@ int Cancion::getCodigoArtista() const {
 
 // Métodos funcionales
 void Cancion::imprimir() const {
-    cout << "  ♪ " << titulo << " - " << artistaPrincipal
+    cout << "  " << titulo << " - " << artistaPrincipal
          << " [" << genero << "] (" << duracionSegundos << "s)" << endl;
 }
 
