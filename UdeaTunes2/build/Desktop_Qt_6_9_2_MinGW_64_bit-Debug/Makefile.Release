@@ -67,9 +67,14 @@ OBJECTS       = release/main.o \
 		release/playlist.o \
 		release/usuario.o
 
-DIST          = DataUser.txt album.h \
+DIST          = ads.dat \
+		songs.dat \
+		songs.txt \
+		users.dat \
+		users.txt album.h \
 		artistas.h \
 		cancion.h \
+		config.h \
 		creditos.h \
 		interfaz.h \
 		playlist.h \
@@ -128,42 +133,45 @@ compiler_clean:
 
 ####### Compile
 
-release/main.o: ../../main.cpp 
+release/main.o: ../../main.cpp ../../config.h \
+		../../usuario.h \
+		../../interfaz.h \
+		../../cancion.h \
+		../../artistas.h \
+		../../album.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\main.o ..\..\main.cpp
 
 release/album.o: ../../album.cpp ../../album.h \
-		../../cancion.h \
-		../../creditos.h
+		../../config.h \
+		../../cancion.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\album.o ..\..\album.cpp
 
 release/artistas.o: ../../artistas.cpp ../../artistas.h \
-		../../album.h
+		../../config.h \
+		../../album.h \
+		../../cancion.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\artistas.o ..\..\artistas.cpp
 
-release/cancion.o: ../../cancion.cpp ../../cancion.h \
-		../../creditos.h
+release/cancion.o: ../../cancion.cpp ../../cancion.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\cancion.o ..\..\cancion.cpp
 
-release/creditos.o: ../../creditos.cpp ../../creditos.h
+release/creditos.o: ../../creditos.cpp ../../creditos.h \
+		../../config.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\creditos.o ..\..\creditos.cpp
 
 release/interfaz.o: ../../interfaz.cpp ../../interfaz.h \
-		../../usuario.h \
-		../../playlist.h \
+		../../config.h \
 		../../cancion.h \
-		../../creditos.h \
-		../../album.h
+		../../usuario.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\interfaz.o ..\..\interfaz.cpp
 
 release/playlist.o: ../../playlist.cpp ../../playlist.h \
-		../../cancion.h \
-		../../creditos.h
+		../../config.h \
+		../../cancion.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\playlist.o ..\..\playlist.cpp
 
 release/usuario.o: ../../usuario.cpp ../../usuario.h \
-		../../playlist.h \
-		../../cancion.h \
-		../../creditos.h
+		../../config.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\usuario.o ..\..\usuario.cpp
 
 ####### Install

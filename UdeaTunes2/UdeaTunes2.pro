@@ -17,10 +17,15 @@ HEADERS += \
     album.h \
     artistas.h \
     cancion.h \
+    config.h \
     creditos.h \
     interfaz.h \
     playlist.h \
     usuario.h
 
 DISTFILES += \
-    DataUser.txt
+    ads.dat \
+    songs.dat \
+    songs.txt \
+    users.dat \
+    users.txt

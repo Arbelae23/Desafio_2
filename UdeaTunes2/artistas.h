@@ -1,77 +1,34 @@
-#ifndef ARTISTA_H
-#define ARTISTA_H
+#ifndef ARTISTAS_H
+#define ARTISTAS_H
 
-class Album;
+#include "config.h"
+#include "album.h"
 
 class Artista {
 private:
-    // Informacion basica
-    char* nombre;
-    int codigo_identificador;  // 5 digitos (00000-99999)
+    long id;
+    char nombre[80];
     int edad;
-    char* pais_origen;
-
-    // Estadisticas
-    int cantidad_seguidores;
-    int posicion_tendencias_global;
-
-    // Catalogo de albumes (arreglo dinamico)
-    Album** albumes;
-    int cantidad_albumes;
-    int capacidad_albumes;
-
-    // Metodos auxiliares
-    void copiarCadena(char*& destino, const char* origen);
-    void liberarCadena(char*& cadena);
-    void redimensionarAlbumes();
-    void inicializarAtributos();
-    void liberarMemoria();
+    char pais[50];
+    int seguidores;
+    int posicionTendencias;
+    Album albums[MAX_ALBUMS_PER_ARTIST];
+    int nAlbums;
 
 public:
-    // Constructores y destructor
     Artista();
-    Artista(const char* nombre, int codigo, int edad = 0,
-            const char* pais = nullptr);
-    Artista(const Artista& otro);
-    ~Artista();
-
-    // Operador de asignacion
-    Artista& operator=(const Artista& otro);
-
-    // Setters
-    bool establecerNombre(const char* nombre);
-    bool establecerCodigoIdentificador(int codigo);
-    bool establecerEdad(int edad);
-    bool establecerPaisOrigen(const char* pais);
-    bool establecerCantidadSeguidores(int seguidores);
-    bool establecerPosicionTendencias(int posicion);
-
+    void setDatos(long id_, const char* nombre_, int edad_, const char* pais_);
+    
+    bool agregarAlbum(const Album& a);
+    
     // Getters
-    const char* obtenerNombre() const;
-    int obtenerCodigoIdentificador() const;
-    int obtenerEdad() const;
-    const char* obtenerPaisOrigen() const;
-    int obtenerCantidadSeguidores() const;
-    int obtenerPosicionTendencias() const;
-
-    // Gestion de seguidores
-    void incrementarSeguidores(int cantidad = 1);
-    void decrementarSeguidores(int cantidad = 1);
-
-    // Gestion de albumes
-    bool agregarAlbum(Album* album);
-    int obtenerCantidadAlbumes() const;
-    Album* obtenerAlbum(int indice) const;
-    bool tieneAlbum(const Album* album) const;
-
-    // Mostrar informacion
-    void mostrarInformacion() const;
-    void mostrarInformacionCompleta() const;
-    void mostrarAlbumes() const;
-
-    // Validaciones estaticas
-    static bool validarCodigo(int codigo);
-    static bool validarEdad(int edad);
+    long getId() const;
+    int getNumeroAlbums() const;
+    const Album* obtenerAlbumPorIndice(int idx) const;
+    
+    // Utilidades
+    void imprimir() const;
+    int sizeBytes() const;
 };
 
-#endif
+#endif // ARTISTAS_H

@@ -1,154 +1,140 @@
 #include "cancion.h"
 #include <cstring>
 #include <iostream>
-
 using namespace std;
 
+// Constructor
 Cancion::Cancion() {
-    inicializarAtributos();
+    id = 0;
+    titulo[0] = 0;
+    artistaPrincipal[0] = 0;
+    album[0] = 0;
+    genero[0] = 0;
+    duracionSegundos = 0;
+    reproducciones = 0;
+    ruta320[0] = 0;
+    codigoArtista = 0;
 }
 
-Cancion::Cancion(const char* titulo, const char* artista_principal,
-                 const char* album, const char* genero,
-                 int duracion_segundos, int anio_lanzamiento) {
-    inicializarAtributos();
+// Setters
+void Cancion::establecerTitulo(const char* titulo) {
+    if (titulo) {
+        strncpy(this->titulo, titulo, 99);
+        this->titulo[99] = 0;
+    }
+}
+
+void Cancion::establecerArtistaPrincipal(const char* artista) {
+    if (artista) {
+        strncpy(this->artistaPrincipal, artista, 79);
+        this->artistaPrincipal[79] = 0;
+    }
+}
+
+void Cancion::establecerAlbum(const char* album) {
+    if (album) {
+        strncpy(this->album, album, 79);
+        this->album[79] = 0;
+    }
+}
+
+void Cancion::establecerGenero(const char* genero) {
+    if (genero) {
+        strncpy(this->genero, genero, 29);
+        this->genero[29] = 0;
+    }
+}
+
+void Cancion::establecerDuracion(int duracion) {
+    this->duracionSegundos = duracion;
+}
+
+void Cancion::establecerRuta320(const char* ruta) {
+    if (ruta) {
+        strncpy(this->ruta320, ruta, 299);
+        this->ruta320[299] = 0;
+    }
+}
+
+void Cancion::establecerCodigoArtista(int codigo) {
+    this->codigoArtista = codigo;
+}
+
+void Cancion::setDatos(long id, const char* titulo, const char* artista, const char* album, const char* genero, int duracion) {
+    this->id = id;
     establecerTitulo(titulo);
-    establecerArtistaPrincipal(artista_principal);
-    if (album) establecerAlbum(album);
-    if (genero) establecerGenero(genero);
-    establecerDuracion(duracion_segundos);
-    establecerAnioLanzamiento(anio_lanzamiento);
+    establecerArtistaPrincipal(artista);
+    establecerAlbum(album);
+    establecerGenero(genero);
+    establecerDuracion(duracion);
 }
 
-Cancion::Cancion(const Cancion& otra) {
-    inicializarAtributos();
-    *this = otra;
+void Cancion::setDatos(const char* titulo, long id, int duracion, const char* ruta) {
+    this->id = id;
+    establecerTitulo(titulo);
+    establecerDuracion(duracion);
+    establecerRuta320(ruta);
 }
 
-Cancion::~Cancion() {
-    liberarMemoria();
+// Getters
+long Cancion::getId() const {
+    return id;
 }
 
-Cancion& Cancion::operator=(const Cancion& otra) {
-    if (this != &otra) {
-        liberarMemoria();
-        inicializarAtributos();
-
-        if (otra.titulo) copiarCadena(titulo, otra.titulo);
-        if (otra.artista_principal) copiarCadena(artista_principal, otra.artista_principal);
-        if (otra.album) copiarCadena(album, otra.album);
-        if (otra.genero) copiarCadena(genero, otra.genero);
-
-        duracion_segundos = otra.duracion_segundos;
-        anio_lanzamiento = otra.anio_lanzamiento;
-        creditos_cancion = otra.creditos_cancion;
-    }
-    return *this;
+const char* Cancion::getNombre() const {
+    return titulo;
 }
 
-void Cancion::inicializarAtributos() {
-    titulo = artista_principal = album = genero = nullptr;
-    duracion_segundos = anio_lanzamiento = 0;
+const char* Cancion::getTitulo() const {
+    return titulo;
 }
 
-void Cancion::liberarMemoria() {
-    liberarCadena(titulo);
-    liberarCadena(artista_principal);
-    liberarCadena(album);
-    liberarCadena(genero);
+const char* Cancion::obtenerTitulo() const {
+    return titulo;
 }
 
-void Cancion::copiarCadena(char*& destino, const char* origen) {
-    if (origen) {
-        int longitud = strlen(origen);
-        destino = new char[longitud + 1];
-        strcpy(destino, origen);
-    } else {
-        destino = nullptr;
-    }
+const char* Cancion::obtenerArtistaPrincipal() const {
+    return artistaPrincipal;
 }
 
-void Cancion::liberarCadena(char*& cadena) {
-    if (cadena) {
-        delete[] cadena;
-        cadena = nullptr;
-    }
+const char* Cancion::getArtista() const {
+    return artistaPrincipal;
 }
 
-// ----- Métodos de establecimiento -----
-bool Cancion::establecerTitulo(const char* nuevo_titulo) {
-    if (!nuevo_titulo || strlen(nuevo_titulo) == 0) return false;
-    liberarCadena(titulo);
-    copiarCadena(titulo, nuevo_titulo);
-    return true;
+const char* Cancion::getAlbum() const {
+    return album;
 }
 
-bool Cancion::establecerArtistaPrincipal(const char* nuevo_artista) {
-    if (!nuevo_artista || strlen(nuevo_artista) == 0) return false;
-    liberarCadena(artista_principal);
-    copiarCadena(artista_principal, nuevo_artista);
-    return true;
+const char* Cancion::getGenero() const {
+    return genero;
 }
 
-bool Cancion::establecerAlbum(const char* nuevo_album) {
-    liberarCadena(album);
-    if (nuevo_album && strlen(nuevo_album) > 0) copiarCadena(album, nuevo_album);
-    return true;
+int Cancion::getDuracion() const {
+    return duracionSegundos;
 }
 
-bool Cancion::establecerGenero(const char* nuevo_genero) {
-    liberarCadena(genero);
-    if (nuevo_genero && strlen(nuevo_genero) > 0) copiarCadena(genero, nuevo_genero);
-    return true;
+const char* Cancion::getRuta320() const {
+    return ruta320;
 }
 
-bool Cancion::establecerDuracion(int segundos) {
-    if (!validarDuracion(segundos)) return false;
-    duracion_segundos = segundos;
-    return true;
+int Cancion::getReproducciones() const {
+    return reproducciones;
 }
 
-bool Cancion::establecerAnioLanzamiento(int anio) {
-    if (!validarAnio(anio)) return false;
-    anio_lanzamiento = anio;
-    return true;
+int Cancion::getCodigoArtista() const {
+    return codigoArtista;
 }
 
-// ----- Métodos de obtención -----
-const char* Cancion::obtenerTitulo() const { return titulo; }
-const char* Cancion::obtenerArtistaPrincipal() const { return artista_principal; }
-const char* Cancion::obtenerAlbum() const { return album; }
-const char* Cancion::obtenerGenero() const { return genero; }
-int Cancion::obtenerDuracion() const { return duracion_segundos; }
-int Cancion::obtenerAnioLanzamiento() const { return anio_lanzamiento; }
-
-// ----- Créditos -----
-bool Cancion::agregarProductor(const char* n, const char* a, const char* c) {
-    return creditos_cancion.agregarProductor(n, a, c);
-}
-bool Cancion::agregarMusico(const char* n, const char* a, const char* c) {
-    return creditos_cancion.agregarMusico(n, a, c);
-}
-bool Cancion::agregarCompositor(const char* n, const char* a, const char* c) {
-    return creditos_cancion.agregarCompositor(n, a, c);
+// Métodos funcionales
+void Cancion::imprimir() const {
+    cout << "  ♪ " << titulo << " - " << artistaPrincipal
+         << " [" << genero << "] (" << duracionSegundos << "s)" << endl;
 }
 
-const Creditos& Cancion::obtenerCreditos() const { return creditos_cancion; }
-Creditos& Cancion::obtenerCreditos() { return creditos_cancion; }
-
-// ----- Mostrar información -----
-void Cancion::mostrarInformacionCompleta() {
-    cout << "\n===== INFORMACION DE LA CANCION =====\n";
-    cout << "Titulo: " << (titulo ? titulo : "(sin titulo)") << "\n";
-    cout << "Artista: " << (artista_principal ? artista_principal : "(sin artista)") << "\n";
-    if (album) cout << "Album: " << album << "\n";
-    if (genero) cout << "Genero: " << genero << "\n";
-    cout << "Duracion: " << duracion_segundos << " segundos\n";
-    cout << "Año de lanzamiento: " << anio_lanzamiento << "\n";
-    creditos_cancion.mostrarCreditos();
+void Cancion::incrementarReproducciones() {
+    reproducciones++;
 }
 
-// ----- Validaciones -----
-bool Cancion::validarAnio(int anio) { return anio >= 1800 && anio <= 2025; }
-bool Cancion::validarDuracion(int segundos) { return segundos >= 0 && segundos <= 7200; }
-
+int Cancion::sizeBytes() const {
+    return sizeof(Cancion);
+}

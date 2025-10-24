@@ -1,0 +1,5 @@
+A tu lado,100010101,210,/users/storage/claudia_lorelle/audio/a_tu_lado
+Lugar Secreto,100010102,180,/users/storage/claudia_lorelle/audio/lugar_secreto
+Ola Azul,200020101,200,/users/storage/artist2/audio/ola_azul
+Noche de Paz,300030101,240,/users/storage/artist3/audio/noche_de_paz
+Vuela Alto,400040101,195,/users/storage/artist4/audio/vuela_alto

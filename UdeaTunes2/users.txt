@@ -1,0 +1,4 @@
+admin,1234,Premium
+juan,abcd,Free
+maria,12345,Premium
+carlos,pass,Free

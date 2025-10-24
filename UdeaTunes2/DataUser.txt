@@ -1,4 +1,0 @@
-juan123,123,Free
-sant1,abc,Premium
-camilo,321,Free
-ana,2025,Premium
