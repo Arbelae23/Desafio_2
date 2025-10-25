@@ -1,5 +1,20 @@
 A tu lado,100010101,210,/users/storage/claudia_lorelle/audio/a_tu_lado
 Lugar Secreto,100010102,180,/users/storage/claudia_lorelle/audio/lugar_secreto
-Ola Azul,200020101,200,/users/storage/artist2/audio/ola_azul
-Noche de Paz,300030101,240,/users/storage/artist3/audio/noche_de_paz
-Vuela Alto,400040101,195,/users/storage/artist4/audio/vuela_alto
+Corazon Valiente,100010103,225,/users/storage/claudia_lorelle/audio/corazon_valiente
+Suenos de Cristal,100010104,190,/users/storage/claudia_lorelle/audio/suenos_de_cristal
+Ola Azul,200020101,200,/users/storage/marina_azul/audio/ola_azul
+Brisa Marina,200020102,185,/users/storage/marina_azul/audio/brisa_marina
+Ondas del Mar,200020103,215,/users/storage/marina_azul/audio/ondas_del_mar
+Noche de Paz,300030101,240,/users/storage/carlos_viento/audio/noche_de_paz
+Melodia Nocturna,300030102,205,/users/storage/carlos_viento/audio/melodia_nocturna
+Estrella Fugaz,300030103,175,/users/storage/carlos_viento/audio/estrella_fugaz
+Vuela Alto,400040101,195,/users/storage/sofia_luna/audio/vuela_alto
+Cielo Infinito,400040102,220,/users/storage/sofia_luna/audio/cielo_infinito
+Luz de Luna,400040103,165,/users/storage/sofia_luna/audio/luz_de_luna
+Ritmo Urbano,500050101,180,/users/storage/alex_beat/audio/ritmo_urbano
+Neon Nights,500050102,195,/users/storage/alex_beat/audio/neon_nights
+Electric Dreams,500050103,210,/users/storage/alex_beat/audio/electric_dreams
+Amanecer,600060101,230,/users/storage/elena_sol/audio/amanecer
+Rayos Dorados,600060102,200,/users/storage/elena_sol/audio/rayos_dorados
+Nuevo Dia,600060103,185,/users/storage/elena_sol/audio/nuevo_dia
+Fuego Interior,700070101,245,/users/storage/diego_rock/audio/fuego_interior

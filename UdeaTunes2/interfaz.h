@@ -12,6 +12,7 @@ private:
     int ultimaAdIndex;
     int contadorCancionesReproducidas;
     bool mostrarSiguientePublicidad;
+    bool repetirCancionActual;  // Estado para repetir canción (solo premium)
 
     // Historial de reproducción
     static const int MAX_HISTORIAL = 50;
@@ -20,6 +21,19 @@ private:
     int finHistorial;
     int tamanoHistorial;
     int posicionActualHistorial;
+
+    // Estructura dinámica para seguir favoritos de otros usuarios
+    struct UsuarioSeguido {
+        char nombreUsuario[50];
+        long* favoritosCache;  // Arreglo dinámico de favoritos
+        int numFavoritos;
+        int capacidadFavoritos;
+        bool necesitaActualizacion;
+    };
+    
+    UsuarioSeguido* usuariosSeguidos;  // Arreglo dinámico de usuarios seguidos
+    int numUsuariosSeguidos;
+    int capacidadUsuariosSeguidos;
 
 public:
     Interfaz();
@@ -34,7 +48,16 @@ public:
     Cancion* buscarCancionPorId(Cancion canciones[], int nCanciones, long id);
 
     // Gestión de usuarios
-    void seguirUsuario(Usuario* usuario, Usuario usuarios[], int nUsuarios, int& iteraciones);
+    void seguirUsuario(Usuario* usuario, Usuario usuarios[], int nUsuarios, Cancion canciones[], int nCanciones, int& iteraciones);
+    
+    // Gestión de usuarios seguidos (arreglos dinámicos)
+    bool agregarUsuarioSeguido(const char* nombreUsuario, Usuario usuarios[], int nUsuarios);
+    void actualizarFavoritosUsuarioSeguido(const char* nombreUsuario, Usuario usuarios[], int nUsuarios);
+    void reproducirFavoritosUsuarioSeguido(const char* nombreUsuario, Usuario usuarios[], int nUsuarios, 
+                                          Cancion canciones[], int nCanciones, bool esPremium, int& iterCount, int& memUsed);
+    void mostrarUsuariosSeguidos();
+    void actualizarTodosLosUsuariosSeguidos(Usuario usuarios[], int nUsuarios);
+    void liberarMemoriaUsuariosSeguidos();
 
     // Reproducción
     void reproducirCancion(Cancion* cancion, bool esPremium, int& iterCount, int& memUsed);
@@ -45,8 +68,9 @@ public:
                              bool esPremium, int& iterCount, int& memUsed);
 
     // Reproducción mejorada (nuevo countdown)
-    // Retorna: 0=normal, 1=anterior, 2=siguiente
+    // Reproducción
     int reproducirConContadorRegresivo(Cancion* c, bool esPremium, int &iter, int &mem);
+    int reproducirConContadorRegresivoAleatorio(Cancion* c, bool esPremium, int &iter, int &mem);
     void mostrarContadorRegresivoCompleto(const char* mensajeAd, const char* categoriaAd,
                                           Cancion* cancion, int tiempoRestante, bool esPremium);
 
