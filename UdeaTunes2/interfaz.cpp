@@ -1434,7 +1434,7 @@ void Interfaz::editarFavoritosConMedicion(Usuario* usuario, Cancion canciones[],
                             }
                         } else {
                             cout << "\nEsta cancion NO ESTA en tus favoritos." << endl;
-                            cout << "¿Que deseas hacer?" << endl;
+                            cout << "Que deseas hacer?" << endl;
                             cout << "1. Agregar a favoritos" << endl;
                             cout << "2. No agregar (cancelar)" << endl;
                             cout << "Opcion: ";
