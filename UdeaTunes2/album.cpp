@@ -45,6 +45,10 @@ bool Album::agregarCancion(const Cancion& c) {
     return true;
 }
 
+void Album::setPuntuacion(int puntuacion_) {
+    puntuacion = puntuacion_;
+}
+
 void Album::imprimir() const {
     cout << "Album: " << nombre << " id:" << id << " fecha:" << fechaLanzamiento << " dur:" << duracionTotal << "s\n";
     cout << " Portada: " << portadaPath << " Puntuacion: " << puntuacion << "\n";
@@ -68,5 +72,7 @@ const Cancion* Album::obtenerCancionPorIndice(int idx) const {
 const char* Album::getPortada() const { return portadaPath; }
 
 long Album::getId() const { return id; }
+
+const char* Album::obtenerNombre() const { return nombre; }
 
 int Album::sizeBytes() const { return sizeof(Album); }

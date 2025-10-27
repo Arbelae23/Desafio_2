@@ -68,6 +68,9 @@ OBJECTS       = debug/main.o \
 		debug/usuario.o
 
 DIST          = ads.dat \
+		albumes.txt \
+		artistas.txt \
+		listaRepro.txt \
 		songs.dat \
 		songs.txt \
 		users.dat \
@@ -138,7 +141,8 @@ debug/main.o: ../../main.cpp ../../config.h \
 		../../interfaz.h \
 		../../cancion.h \
 		../../artistas.h \
-		../../album.h
+		../../album.h \
+		../../playlist.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\main.o ..\..\main.cpp
 
 debug/album.o: ../../album.cpp ../../album.h \
@@ -162,7 +166,10 @@ debug/creditos.o: ../../creditos.cpp ../../creditos.h \
 debug/interfaz.o: ../../interfaz.cpp ../../interfaz.h \
 		../../config.h \
 		../../cancion.h \
-		../../usuario.h
+		../../usuario.h \
+		../../artistas.h \
+		../../album.h \
+		../../playlist.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\interfaz.o ..\..\interfaz.cpp
 
 debug/playlist.o: ../../playlist.cpp ../../playlist.h \

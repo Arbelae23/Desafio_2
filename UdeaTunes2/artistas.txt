@@ -1,0 +1,7 @@
+100010,Claudia Lorelle,28,Colombia,125000,15
+200020,Marina Azul,32,España,89000,22
+300030,Carlos Viento,35,México,156000,8
+400040,Sofia Luna,26,Argentina,203000,5
+500050,Alex Beat,29,Estados Unidos,178000,12
+600060,Elena Sol,31,Chile,92000,18
+700070,Diego Rock,33,Brasil,145000,10

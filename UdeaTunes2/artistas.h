@@ -18,11 +18,13 @@ private:
 public:
     Artista();
     void setDatos(long id_, const char* nombre_, int edad_, const char* pais_);
+    void setDatos(long id_, const char* nombre_, int edad_, const char* pais_, int seguidores_, int posicionTendencias_);
     
     bool agregarAlbum(const Album& a);
     
     // Getters
     long getId() const;
+    const char* obtenerNombre() const;
     int getNumeroAlbums() const;
     const Album* obtenerAlbumPorIndice(int idx) const;
     

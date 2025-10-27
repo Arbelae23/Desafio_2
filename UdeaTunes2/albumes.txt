@@ -1,0 +1,7 @@
+1001,Corazones en Melodia,2023-03-15,615,Melodic Records,/images/albums/corazones_melodia.jpg,8,Pop,Latina,,
+2002,Oceano Infinito,2023-06-20,600,Blue Wave Music,/images/albums/oceano_infinito.jpg,7,Rock,Blues,,
+3003,Vientos del Norte,2022-11-10,620,Wind Sound Records,/images/albums/vientos_norte.jpg,9,Jazz,Musica Clasica,,
+4004,Cielos Estrellados,2023-01-25,580,Luna Music Group,/images/albums/cielos_estrellados.jpg,6,Electronica,Pop,,
+5005,Beats Urbanos,2023-08-12,585,Urban Sound Lab,/images/albums/beats_urbanos.jpg,8,Hip Hop,Reggae,Latina,
+6006,Rayos de Esperanza,2023-04-18,615,Sol Records,/images/albums/rayos_esperanza.jpg,7,Pop,Rock,Electronica,
+7007,Fuego y Pasion,2022-09-30,245,Rock Nation,/images/albums/fuego_pasion.jpg,9,Rock,Blues,Jazz,

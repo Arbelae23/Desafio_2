@@ -25,6 +25,9 @@ HEADERS += \
 
 DISTFILES += \
     ads.dat \
+    albumes.txt \
+    artistas.txt \
+    listaRepro.txt \
     songs.dat \
     songs.txt \
     users.dat \

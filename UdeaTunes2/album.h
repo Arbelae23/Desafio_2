@@ -24,9 +24,11 @@ public:
     
     bool agregarGenero(const char* g);
     bool agregarCancion(const Cancion& c);
+    void setPuntuacion(int puntuacion_);
     
     // Getters
     long getId() const;
+    const char* obtenerNombre() const;
     int getNumeroCanciones() const;
     const char* getPortada() const;
     const Cancion* obtenerCancionPorIndice(int idx) const;

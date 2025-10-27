@@ -5,9 +5,10 @@
 #include "config.h"
 #include "usuario.h"
 #include "interfaz.h"
-#include "artistas.h"
-#include "album.h"
 #include "cancion.h"
+#include "album.h"
+#include "artistas.h"
+#include "playlist.h"
 
 using namespace std;
 
@@ -21,11 +22,22 @@ int main() {
 
     static Usuario users[MAX_USERS];
     static Cancion canciones[MAX_SONGS];
+    static Album albunes[MAX_ALBUMS];  // Agregar array de álbumes
+    Artista* artistas = new Artista[MAX_ARTISTS];  // Array dinámico para evitar stack overflow
+    static Playlist playlists[MAX_PLAYLISTS];  // Agregar array de playlists
     Interfaz interfaz; // Nueva clase interfaz
 
     // Cargar archivos de datos usando funciones de Interfaz
     int nUsers = interfaz.cargarUsuariosDesdeArchivo("C:/Users/USER/Documents/GitHub/Desafio_2/UdeaTunes2/users.txt", users, MAX_USERS);
     int nCanciones = interfaz.cargarCancionesDesdeArchivo("C:/Users/USER/Documents/GitHub/Desafio_2/UdeaTunes2/songs.txt", canciones, MAX_SONGS);
+    int nPlaylists = interfaz.cargarPlaylistsDesdeArchivo("C:/Users/USER/Documents/GitHub/Desafio_2/UdeaTunes2/listaRepro.txt", playlists, MAX_PLAYLISTS, canciones, nCanciones);
+    int nAlbunes = interfaz.cargarAlbunesDesdeArchivo("C:/Users/USER/Documents/GitHub/Desafio_2/UdeaTunes2/albumes.txt", albunes, MAX_ALBUMS);
+    int nArtistas = interfaz.cargarArtistasDesdeArchivo("C:/Users/USER/Documents/GitHub/Desafio_2/UdeaTunes2/artistas.txt", artistas, MAX_ARTISTS);
+
+    // Vincular datos despues de cargar todo
+    interfaz.vincularCancionesConArtistas(canciones, nCanciones, artistas, nArtistas);
+    interfaz.vincularCancionesConAlbumes(canciones, nCanciones, albunes, nAlbunes);
+    interfaz.establecerCancionesSingle(canciones, nCanciones);
 
     // Si no hay archivos, usar datos de prueba
     if (nUsers == 0) {
@@ -109,6 +121,7 @@ int main() {
     }
 
     cout << MSG_THANKS << "\n";
+    delete[] artistas;  // Liberar memoria del array dinámico
     return 0;
 }
 
@@ -136,17 +149,23 @@ bool mostrarMenuParaUsuario(Usuario* u, Usuario users[], int nUsers,
         cout << "Opcion: ";
         cin >> opcion;
 
+        // Validar entrada
+        if (cin.fail()) {
+            cin.clear();
+            cin.ignore(1000, '\n');
+            opcion = 0; // Valor inválido para continuar el bucle
+            cout << "Entrada invalida. Debe ingresar un numero del 1 al 5.\n";
+            continue;
+        }
+
         // ---------------- OPCIONES DISPONIBLES ----------------
         switch(opcion) {
         case 1: {
-            // Reproducción aleatoria con nuevo sistema
-            int iter = 0, mem = 0;
+            // Reproducción aleatoria con medición de recursos
             bool esPremium = (strcmp(u->getTipo(), "Premium") == 0);
 
-            cout << "Reproduciendo canciones aleatoriamente con el nuevo sistema...\n";
-            interfaz.reproducirAleatoria(canciones, nCanciones, u, esPremium, iter, mem);
-            iterCountTotal += iter;
-            memoriaTotal += mem;
+            cout << "Reproduciendo canciones aleatoriamente...\n";
+            interfaz.reproducirAleatoriaConMedicion(canciones, nCanciones, u, esPremium);
             break;
         }
 
@@ -175,138 +194,33 @@ bool mostrarMenuParaUsuario(Usuario* u, Usuario users[], int nUsers,
                     }
 
                 if (sub == 1) {
-                    // Editar favoritos usando ID de canción
-                    cout << "\n=== EDITAR FAVORITOS ===\n";
-                    cout << "Ingrese el ID de la cancion: ";
-                    long idCancion;
-                    cin >> idCancion;
-
-                    // Buscar la canción por ID
-                    Cancion* cancionEncontrada = interfaz.buscarCancionPorId(canciones, nCanciones, idCancion);
-                    
-                    if (cancionEncontrada == nullptr) {
-                        cout << "No se encontro ninguna cancion con ID: " << idCancion << "\n";
-                    } else {
-                        // Mostrar información de la canción en el formato solicitado
-                        cout << "\n" << cancionEncontrada->getTitulo() << "\n";
-                        cout << "Artista: " << cancionEncontrada->getArtista() << "\n";
-                        cout << "Album: " << cancionEncontrada->getAlbum() << "\n";
-                        cout << "Duracion: " << cancionEncontrada->getDuracion() << " segundos\n";
-                        
-                        // Verificar si ya está en favoritos
-                        bool yaEsFavorito = u->existeFavorito(idCancion);
-                        
-                        if (yaEsFavorito) {
-                            cout << "\nEsta cancion YA esta en tu lista de favoritos.\n";
-                            cout << "¿Deseas eliminarla? (1=Si, 0=No): ";
-                            int eliminar;
-                            cin >> eliminar;
-                            
-                            if (eliminar == 1) {
-                                if (u->eliminarFavorito(idCancion)) {
-                                    cout << "Cancion eliminada de favoritos exitosamente.\n";
-                                } else {
-                                    cout << "Error al eliminar la cancion de favoritos.\n";
-                                }
-                            }
-                        } else {
-                            cout << "\nEsta cancion NO esta en tu lista de favoritos.\n";
-                            cout << "¿Deseas agregarla? (1=Si, 0=No): ";
-                            int agregar;
-                            cin >> agregar;
-                            
-                            if (agregar == 1) {
-                                if (u->agregarFavorito(idCancion)) {
-                                    cout << "Cancion agregada a favoritos exitosamente.\n";
-                                } else {
-                                    cout << "No se pudo agregar la cancion (lista llena o error).\n";
-                                }
-                            }
-                        }
-
-                        // Mostrar lista actualizada de favoritos
-                        cout << "\n=== LISTA ACTUAL DE FAVORITOS (" << u->getNumFavoritos() << "/" << MAX_FAVORITES << ") ===\n";
-                        if (u->getNumFavoritos() == 0) {
-                            cout << "Tu lista de favoritos esta vacia.\n";
-                        } else {
-                            for (int i = 0; i < u->getNumFavoritos(); i++) {
-                                long fid = u->obtenerFavoritoPorIndice(i);
-                                Cancion* fc = interfaz.buscarCancionPorId(canciones, nCanciones, fid);
-                                if (fc) {
-                                    cout << (i + 1) << ". ID:" << fc->getId() << " - " 
-                                         << fc->getTitulo() << " (" << fc->getArtista() << ")\n";
-                                }
-                            }
-                        }
-                    }
+                    // Editar favoritos con medición de recursos
+                    interfaz.editarFavoritosConMedicion(u, canciones, nCanciones);
                 }
                 else if (sub == 2) {
-                    // Ver todas las canciones disponibles
-                    mostrarCancionesDisponibles(canciones, nCanciones);
+                    // Ver todas las canciones disponibles con medición de recursos
+                    interfaz.mostrarCancionesConMedicion(canciones, nCanciones);
                 }
                 else if (sub == 3) {
-                    int iterSeguir = 0;
-                    interfaz.seguirUsuario(u, users, nUsers, canciones, nCanciones, iterSeguir);
-                    iterCountTotal += iterSeguir;
+                    // Seguir usuario con medición de recursos
+                    interfaz.seguirUsuarioConMedicion(u, users, nUsers, canciones, nCanciones);
                 }
                 else if (sub == 4) {
-                    int nFav = u->getNumFavoritos();
-                    if (nFav == 0) {
-                        cout << "Tu lista de favoritos esta vacia.\n";
-                    } else {
-                        Cancion* lista[1000];
-                        int nLista = 0;
-                        for (int i = 0; i < nFav; i++) {
-                            long id = u->obtenerFavoritoPorIndice(i);
-                            Cancion* c = interfaz.buscarCancionPorId(canciones, nCanciones, id);
-                            if (c) lista[nLista++] = c;
-                        }
-
-                        if (nLista == 0) {
-                            cout << "No hay canciones validas para reproducir.\n";
-                        } else {
-                            cout << "Reproducir en orden (0) o aleatorio (1)? ";
-                            int modo;
-                            cin >> modo;
-                            int iter = 0, mem = 0;
-
-                            if (modo == 1) {
-                                int K = (nLista < 5 ? nLista : 5);
-                                Cancion* ses[5];
-                                bool used[1000] = {false};
-                                int chosen = 0;
-                                while (chosen < K) {
-                                    int r = rand() % nLista;
-                                    if (!used[r]) {
-                                        used[r] = true;
-                                        ses[chosen++] = lista[r];
-                                    }
-                                }
-                                bool esPremium = (strcmp(u->getTipo(), "Premium") == 0);
-                                interfaz.reproducirLista(ses, K, u, esPremium, iter, mem);
-                            } else {
-                                bool esPremium = (strcmp(u->getTipo(), "Premium") == 0);
-                                interfaz.reproducirLista(lista, nLista, u, esPremium, iter, mem);
-                            }
-                            iterCountTotal += iter;
-                            memoriaTotal += mem;
-                        }
-                    }
+                    // Ejecutar lista de favoritos con medición de recursos
+                    bool esPremium = (strcmp(u->getTipo(), "Premium") == 0);
+                    interfaz.ejecutarListaFavoritosConMedicion(u, canciones, nCanciones, esPremium);
                 }
                 else if (sub == 5) {
-                    // Reproducir favoritos de usuario seguido
-                    interfaz.mostrarUsuariosSeguidos();
+                    // Reproducir favoritos de usuario seguido con medición de recursos
+                    interfaz.mostrarUsuariosSeguidos(users, nUsers);
                     
                     cout << "\nIngrese el nombre del usuario seguido: ";
                     char nombreUsuario[50];
                     cin >> nombreUsuario;
                     
-                    int iter = 0, mem = 0;
                     bool esPremium = (strcmp(u->getTipo(), "Premium") == 0);
-                    interfaz.reproducirFavoritosUsuarioSeguido(nombreUsuario, users, nUsers, 
-                                                             canciones, nCanciones, esPremium, iter, mem);
-                    iterCountTotal += iter;
-                    memoriaTotal += mem;
+                    interfaz.reproducirFavoritosUsuarioSeguidoConMedicion(nombreUsuario, users, nUsers, 
+                                                                        canciones, nCanciones, esPremium);
                 }
                 else if (sub != 6) {
                     cout << "Opcion invalida. Seleccione una opcion del 1 al 6.\n";
@@ -349,7 +263,7 @@ bool mostrarMenuParaUsuario(Usuario* u, Usuario users[], int nUsers,
 }
 
 // ----------------------------------------------------------
-// Función para mostrar canciones disponibles
+// Funcion para mostrar canciones disponibles
 void mostrarCancionesDisponibles(Cancion canciones[], int nCanciones) {
     cout << "\n=== CANCIONES DISPONIBLES ===\n";
     for (int i = 0; i < nCanciones; i++) {

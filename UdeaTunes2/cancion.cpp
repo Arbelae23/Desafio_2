@@ -137,7 +137,7 @@ int Cancion::getCodigoArtista() const {
     return codigoArtista;
 }
 
-// Métodos funcionales
+// Metodos funcionales
 void Cancion::imprimir() const {
     cout << "  " << titulo << " - " << artistaPrincipal
          << " [" << genero << "] (" << duracionSegundos << "s)" << endl;

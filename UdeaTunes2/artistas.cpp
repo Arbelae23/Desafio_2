@@ -25,6 +25,18 @@ void Artista::setDatos(long id_, const char* nombre_, int edad_, const char* pai
     nAlbums = 0;
 }
 
+void Artista::setDatos(long id_, const char* nombre_, int edad_, const char* pais_, int seguidores_, int posicionTendencias_) {
+    id = id_;
+    strncpy(nombre, nombre_, 79);
+    nombre[79] = 0;
+    edad = edad_;
+    strncpy(pais, pais_, 49);
+    pais[49] = 0;
+    seguidores = seguidores_;
+    posicionTendencias = posicionTendencias_;
+    nAlbums = 0;
+}
+
 bool Artista::agregarAlbum(const Album& a) {
     if (nAlbums >= MAX_ALBUMS_PER_ARTIST) return false;
     albums[nAlbums] = a;
@@ -51,5 +63,7 @@ const Album* Artista::obtenerAlbumPorIndice(int idx) const {
 }
 
 long Artista::getId() const { return id; }
+
+const char* Artista::obtenerNombre() const { return nombre; }
 
 int Artista::sizeBytes() const { return sizeof(Artista); }
